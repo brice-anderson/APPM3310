@@ -1,11 +1,19 @@
 clc; clear; close all;
 % Read file in
-matrix = readmatrix("SECMatrix.xlsx",'Range','B2:Q17');
-matrix = matrix + 
+matrix = readmatrix("SECMatrix.xlsx",'Range','B:Q17');
+
+for i = 1:length(matrix)
+    %matrix(i,i) = 0.5;
+    matrix(i,i) = sum(matrix(i,:))/18;
+end
 
 try chol(matrix)
     disp('Matrix is symmetric positive definite.')
 catch ME
     disp('Matrix is not symmetric positive definite')
 end
-[U,S,V] = svd(matrix);
+[U,S] = eig(matrix);
+team_ranks = matrix*U(:,1);
+
+
+
